@@ -31,3 +31,17 @@ A simple CRUD for exporing rust ecosystem.
   - [ ] JWT
   - [ ] Middleware
 - [ ] CLI
+
+## Project Structure
+
+- Domain
+  - Entities
+  - Value Objects
+  - Repository Contracts
+- Application
+  - Board
+  - List
+  - Card
+- Infrastructure
+  - Repositories
+- Presentation (Rest API)
