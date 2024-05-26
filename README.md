@@ -4,10 +4,11 @@ A simple CRUD for exporing rust ecosystem.
 
 ---
 
-## Progress
+## Roadmap
 
-- [ ] Setup a basic REST API
-- [ ] Host it on render.com
+- [ ] Setup basic error handling
+- [ ] Setup a health check route
+- [ ] Host the app on render.com
 - [ ] Add Instrumentation
 - [ ] Model Domain
   - [ ] Board
@@ -31,6 +32,14 @@ A simple CRUD for exporing rust ecosystem.
   - [ ] JWT
   - [ ] Middleware
 - [ ] CLI
+
+## Tech Stack
+
+- tokio
+- axum
+- sqlx
+- cornocupia (maybe!)
+- tracing
 
 ## Project Structure
 
