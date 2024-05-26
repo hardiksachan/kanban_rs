@@ -7,7 +7,7 @@ A simple CRUD for exporing rust ecosystem.
 ## Roadmap
 
 - [x] Setup basic error handling
-- [ ] Setup a health check route
+- [x] Setup a health check route
 - [ ] Start with a trivial CRUD
   - [ ] basic structure for the project
   - [ ] setup loggin/tracing
