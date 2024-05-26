@@ -3,7 +3,9 @@ use axum::{http::StatusCode, response::IntoResponse};
 pub type Result<T> = std::result::Result<T, Error>;
 
 #[derive(Debug)]
-pub struct Error(Box<dyn std::error::Error>);
+pub enum Error {
+    LoginFail,
+}
 
 impl IntoResponse for Error {
     fn into_response(self) -> axum::response::Response {
@@ -21,8 +23,3 @@ impl std::fmt::Display for Error {
 
 impl std::error::Error for Error {}
 
-impl From<Box<dyn std::error::Error>> for Error {
-    fn from(value: Box<dyn std::error::Error>) -> Self {
-        Error(value)
-    }
-}
