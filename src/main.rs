@@ -1,24 +1,19 @@
-use axum::{
-    response::IntoResponse,
-    routing::get,
-    Router,
-};
+mod error;
 
-type Error = Box<dyn std::error::Error>;
-type Result<T> = std::result::Result<T, Error>;
+pub use error::{Error, Result};
+
+use axum::{response::IntoResponse, routing::get, Router};
 
 #[tokio::main]
-async fn main() -> Result<()> {
-    let routes = Router::new().route("/healthz", get(handler_hello));
+async fn main() {
+    let routes = Router::new().route("/healthz", get(healthz_handler));
 
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await?;
-    println!("->> LISTENING on {}\n", listener.local_addr()?);
-    axum::serve(listener, routes).await?;
-
-    Ok(())
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    println!("->> LISTENING on {}\n", listener.local_addr().unwrap());
+    axum::serve(listener, routes).await.unwrap();
 }
 
-async fn handler_hello() -> impl IntoResponse {
+async fn healthz_handler() -> impl IntoResponse {
     println!("->> {:<12} - healthz", "HANDLER");
 
     ()
