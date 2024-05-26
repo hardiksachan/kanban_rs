@@ -6,15 +6,17 @@ A simple CRUD for exporing rust ecosystem.
 
 ## Roadmap
 
-- [ ] Setup basic error handling
+- [x] Setup basic error handling
 - [ ] Setup a health check route
+- [ ] Start with a trivial CRUD
+  - [ ] basic structure for the project
+  - [ ] setup loggin/tracing
 - [ ] Host the app on render.com
-- [ ] Add Instrumentation
 - [ ] Model Domain
   - [ ] Board
   - [ ] List
   - [ ] Card
-  - [ ] Repository Contract
+- [ ] Model Repository Contract
 - [ ] In memory Repository
   - [ ] Board
   - [ ] List
