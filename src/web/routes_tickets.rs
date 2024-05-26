@@ -27,7 +27,7 @@ async fn create_ticket(
 }
 
 async fn list_tickets(State(mc): State<ModelController>) -> impl IntoResponse {
-    println!("->> {:<12} - create-ticket", "HANDLER");
+    println!("->> {:<12} - list-tickets", "HANDLER");
 
     let tickets = mc.list_tickets().await?;
 
@@ -38,7 +38,7 @@ async fn delete_ticket(
     State(mc): State<ModelController>,
     Path(id): Path<u64>,
 ) -> impl IntoResponse {
-    println!("->> {:<12} - create-ticket", "HANDLER");
+    println!("->> {:<12} - delete-ticket", "HANDLER");
 
     let ticket = mc.delete_ticket(id).await?;
 
