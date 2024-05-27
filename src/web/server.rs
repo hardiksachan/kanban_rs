@@ -1,15 +1,14 @@
-mod mw_auth;
-mod mw_res_map;
-mod routes_health;
-mod routes_login;
-mod routes_tickets;
-
-pub const AUTH_TOKEN: &str = "auth-token";
-
 use crate::error::Result;
-use crate::model::ModelController;
 use axum::{middleware, Router};
 use tower_cookies::CookieManagerLayer;
+use crate::model::ModelController;
+use super::{
+    routes_tickets,
+    routes_health,
+    routes_login,
+    mw_auth,
+    mw_res_map
+};
 
 pub async fn start() -> Result<()> {
     let mc = ModelController::new().await?;
@@ -21,7 +20,9 @@ pub async fn start() -> Result<()> {
         .merge(routes_login::routes())
         .nest("/api", routes_health::routes())
         .nest("/api", routes_apis)
-        .layer(middleware::map_response(mw_res_map::main_response_mapper))
+        .layer(middleware::map_response(
+            mw_res_map::main_response_mapper,
+        ))
         .layer(middleware::from_fn(mw_auth::mw_ctx_resolver))
         .layer(CookieManagerLayer::new());
 

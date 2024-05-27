@@ -8,12 +8,14 @@ A simple CRUD for exporing rust ecosystem.
 
 - [x] Setup basic error handling
 - [x] Setup a health check route
-- [ ] Start with a trivial CRUD
+- [x] Start with a trivial CRUD
   - [x] basic structure for the project
   - [x] fake auth api and middleware
   - [x] implement [C]reate, [R]ead All, and [D]elete for Ticket
   - [x] protect /tickets routes using auth middleware
-  - [x] setup loggin/tracing
+  - [x] setup logging
+  - [x] reorganise and modularize a bit more
+- [ ] Setup tracing
 - [ ] Host the app on render.com
 - [ ] Model Domain
   - [ ] Board
