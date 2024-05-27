@@ -2,14 +2,17 @@ use axum::{http::StatusCode, response::IntoResponse};
 
 pub type Result<T> = std::result::Result<T, Error>;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Error {
     LoginFail,
 
     // Model errors
     TicketDeleteFailIdNotFound { id: u64 },
+
+    // Auth errors
     AuthFailNoAuthTokenCookie,
     AuthFailTokenWrongFormat,
+    AuthFailedCtxNotInRequestExt,
 }
 
 impl IntoResponse for Error {

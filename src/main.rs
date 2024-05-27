@@ -1,3 +1,4 @@
+mod ctx;
 mod error;
 mod model;
 mod web;
@@ -26,6 +27,7 @@ async fn main() -> Result<()> {
         .merge(web::routes_login::routes())
         .nest("/api", routes_apis)
         .layer(middleware::map_response(main_response_mapper))
+        .layer(middleware::from_fn(web::mw_auth::mw_ctx_resolver))
         .layer(CookieManagerLayer::new());
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
