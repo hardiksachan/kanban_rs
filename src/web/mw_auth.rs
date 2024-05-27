@@ -6,26 +6,25 @@ use axum::middleware::Next;
 use axum::response::Response;
 use lazy_regex::regex_captures;
 use tower_cookies::{Cookie, Cookies};
+use tracing::instrument;
 
 use crate::ctx::Ctx;
 use crate::web::AUTH_TOKEN;
 use crate::{Error, Result};
 
+#[instrument]
 pub async fn mw_require_auth(ctx: Result<Ctx>, req: Request<Body>, next: Next) -> Result<Response> {
-    println!("->> {:<12} - mw_require_auth", "MIDDLEWARE");
-
     ctx?;
 
     Ok(next.run(req).await)
 }
 
+#[instrument(skip_all)]
 pub async fn mw_ctx_resolver(
     cookies: Cookies,
     mut req: Request<Body>,
     next: Next,
 ) -> Result<Response> {
-    println!("->> {:<12} - mw_ctx_resolver", "MIDDLEWARE");
-
     let auth_token = cookies.get(AUTH_TOKEN).map(|c| c.value().to_string());
     let result_ctx = match auth_token
         .ok_or(Error::AuthFailNoAuthTokenCookie)
@@ -51,9 +50,8 @@ where
 {
     type Rejection = Error;
 
+    #[instrument(skip_all)]
     async fn from_request_parts(parts: &mut Parts, _state: &S) -> Result<Self> {
-        println!("->> {:<12} - Ctx", "EXTRACTOR");
-
         parts
             .extensions
             .get::<Result<Ctx>>()

@@ -1,7 +1,7 @@
 use crate::{ctx::Ctx, Error, Result};
-use std::sync::{Arc, Mutex};
-
 use serde::{Deserialize, Serialize};
+use std::sync::{Arc, Mutex};
+use tracing::{info, instrument};
 
 #[derive(Clone, Debug, Serialize)]
 pub struct Ticket {
@@ -10,7 +10,7 @@ pub struct Ticket {
     pub title: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize)]
 pub struct TicketForCreate {
     pub title: String,
 }
@@ -29,6 +29,7 @@ impl ModelController {
 }
 
 impl ModelController {
+    #[instrument(skip(self))]
     pub async fn create_ticket(&self, ctx: Ctx, tickec_fc: TicketForCreate) -> Result<Ticket> {
         let mut store = self.tickets_store.lock().unwrap();
 
@@ -40,21 +41,29 @@ impl ModelController {
         };
         store.push(Some(ticket.clone()));
 
+        info!(?ticket, "ticket added");
+
         Ok(ticket)
     }
 
+    #[instrument(skip(self))]
     pub async fn list_tickets(&self, _ctx: Ctx) -> Result<Vec<Ticket>> {
         let store = self.tickets_store.lock().unwrap();
 
-        let tickets = store.iter().filter_map(|t| t.clone()).collect();
+        let tickets: Vec<Ticket> = store.iter().filter_map(|t| t.clone()).collect();
+
+        info!(count = tickets.len(), "tickets listed");
 
         Ok(tickets)
     }
 
+    #[instrument(skip(self))]
     pub async fn delete_ticket(&self, _ctx: Ctx, id: u64) -> Result<Ticket> {
         let mut store = self.tickets_store.lock().unwrap();
 
         let ticket = store.get_mut(id as usize).and_then(|t| t.take());
+
+        info!(?ticket, "ticket deleted");
 
         ticket.ok_or(Error::TicketDeleteFailIdNotFound { id })
     }

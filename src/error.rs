@@ -1,5 +1,6 @@
 use axum::{http::StatusCode, response::IntoResponse};
 use serde::Serialize;
+use tracing::instrument;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -49,9 +50,8 @@ pub enum ClientError {
 }
 
 impl IntoResponse for Error {
+    #[instrument]
     fn into_response(self) -> axum::response::Response {
-        println!("->> {:<12} - {self:?}", "INTO_RES");
-
         let mut response = StatusCode::INTERNAL_SERVER_ERROR.into_response();
 
         response.extensions_mut().insert(self);

@@ -10,6 +10,7 @@ use crate::error::Result;
 use crate::model::ModelController;
 use axum::{middleware, Router};
 use tower_cookies::CookieManagerLayer;
+use tracing::info;
 
 pub async fn start() -> Result<()> {
     let mc = ModelController::new().await?;
@@ -18,7 +19,7 @@ pub async fn start() -> Result<()> {
         .route_layer(middleware::from_fn(mw_auth::mw_require_auth));
 
     let routes = Router::new()
-        .merge(routes_login::routes())
+        .nest("/api", routes_login::routes())
         .nest("/api", routes_health::routes())
         .nest("/api", routes_apis)
         .layer(middleware::map_response(mw_res_map::main_response_mapper))
@@ -26,7 +27,7 @@ pub async fn start() -> Result<()> {
         .layer(CookieManagerLayer::new());
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
-    println!("->> LISTENING on {}\n", listener.local_addr().unwrap());
+    info!("LISTENING on {}\n", listener.local_addr().unwrap());
     axum::serve(listener, routes).await.unwrap();
 
     Ok(())
