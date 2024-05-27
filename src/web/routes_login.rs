@@ -9,10 +9,7 @@ pub fn routes() -> Router {
     Router::new().route("/api/login", post(api_login))
 }
 
-async fn api_login(
-    cookies: Cookies,
-    Json(payload): Json<LoginPayload>,
-) -> impl IntoResponse {
+async fn api_login(cookies: Cookies, Json(payload): Json<LoginPayload>) -> impl IntoResponse {
     println!("->> {:<12} - api_login", "HANDLER");
 
     // TODO: mock auth

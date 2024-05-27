@@ -41,7 +41,7 @@ async fn delete_ticket(
 ) -> impl IntoResponse {
     println!("->> {:<12} - delete-ticket", "HANDLER");
 
-    let ticket = mc.delete_ticket(ctx,id).await?;
+    let ticket = mc.delete_ticket(ctx, id).await?;
 
     Result::Ok(Json(ticket))
 }

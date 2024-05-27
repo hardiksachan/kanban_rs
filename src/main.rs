@@ -1,18 +1,24 @@
 mod ctx;
 mod error;
+mod log;
 mod model;
 mod web;
 
+use ctx::Ctx;
 pub use error::{Error, Result};
 
 use axum::{
-    middleware, response::{IntoResponse, Response}, routing::get, Json, Router
+    http::{Method, Uri},
+    middleware,
+    response::{IntoResponse, Response},
+    routing::get,
+    Json, Router,
 };
 use serde_json::json;
 use tower_cookies::CookieManagerLayer;
 use uuid::Uuid;
 
-use crate::model::ModelController;
+use crate::{log::log_request, model::ModelController};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -36,7 +42,12 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
-async fn main_response_mapper(res: Response) -> Response {
+async fn main_response_mapper(
+    ctx: Option<Ctx>,
+    uri: Uri,
+    req_method: Method,
+    res: Response,
+) -> Response {
     println!("->> {:<12} - main_response_mapper", "RES_MAPPER");
     let uuid = Uuid::new_v4();
 
@@ -58,7 +69,8 @@ async fn main_response_mapper(res: Response) -> Response {
             (*status_code, Json(client_error_body)).into_response()
         });
 
-    println!("    ->> server log line - {uuid} - Error: {service_error:?}");
+    let client_error = client_status_error.unzip().1;
+    let _ = log_request(uuid, req_method, uri, ctx, service_error, client_error).await;
 
     println!();
     error_response.unwrap_or(res)

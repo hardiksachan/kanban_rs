@@ -12,8 +12,8 @@ A simple CRUD for exporing rust ecosystem.
   - [x] basic structure for the project
   - [x] fake auth api and middleware
   - [x] implement [C]reate, [R]ead All, and [D]elete for Ticket
-  - [ ] protect /tickets routes using auth middleware
-  - [ ] setup loggin/tracing
+  - [x] protect /tickets routes using auth middleware
+  - [x] setup loggin/tracing
 - [ ] Host the app on render.com
 - [ ] Model Domain
   - [ ] Board

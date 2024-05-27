@@ -1,9 +1,9 @@
+use axum::async_trait;
 use axum::body::Body;
 use axum::extract::{FromRequestParts, Request};
 use axum::http::request::Parts;
 use axum::middleware::Next;
 use axum::response::Response;
-use axum::{async_trait, RequestPartsExt};
 use lazy_regex::regex_captures;
 use tower_cookies::{Cookie, Cookies};
 
