@@ -50,7 +50,6 @@ where
 {
     type Rejection = Error;
 
-    #[instrument(skip_all)]
     async fn from_request_parts(parts: &mut Parts, _state: &S) -> Result<Self> {
         parts
             .extensions
@@ -62,6 +61,7 @@ where
 
 /// Parse a token of format `user-[user-id].[expiration].[signature].
 /// Returns (user_id, expiration, signature)
+#[instrument]
 fn parse_token(token: String) -> Result<(u64, String, String)> {
     let (_whole, user_id, exp, sign) = regex_captures!(r#"^user-(\d+)\.(.+)\.(.+)"#, &token)
         .ok_or(Error::AuthFailTokenWrongFormat)?;
