@@ -2,6 +2,7 @@ use opentelemetry::{trace::TraceError, KeyValue};
 use opentelemetry_otlp::WithExportConfig;
 use opentelemetry::sdk::{runtime, trace, Resource};
 
+#[allow(unused)]
 pub fn init_trace() -> Result<trace::Tracer, TraceError> {
     opentelemetry_otlp::new_pipeline()
         .tracing()

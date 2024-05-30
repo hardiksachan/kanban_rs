@@ -15,7 +15,7 @@ A simple CRUD for exporing rust ecosystem.
   - [x] protect /tickets routes using auth middleware
   - [x] setup logging
   - [x] reorganise and modularize a bit more
-- [ ] Setup tracing
+- [x] Setup tracing
 - [ ] Host the app on render.com
 - [ ] Model Domain
   - [ ] Board
