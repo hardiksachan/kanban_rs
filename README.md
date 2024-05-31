@@ -16,6 +16,10 @@ A simple CRUD for exporing rust ecosystem.
   - [x] setup logging
   - [x] reorganise and modularize a bit more
 - [x] Setup tracing
+- [ ] Refactor to hexagonal architecture
+- [ ] Implement real auth
+  - [ ] Users
+  - [ ] Authentication
 - [ ] Host the app on render.com
 - [ ] Model Domain
   - [ ] Board
@@ -34,10 +38,6 @@ A simple CRUD for exporing rust ecosystem.
   - [ ] CRUD Board
   - [ ] CRUD Lists
   - [ ] CRUD Cards
-- [ ] Users
-- [ ] Authentication
-  - [ ] JWT
-  - [ ] Middleware
 - [ ] CLI
 
 ## Tech Stack
@@ -48,16 +48,3 @@ A simple CRUD for exporing rust ecosystem.
 - cornocupia (maybe!)
 - tracing
 
-## Project Structure
-
-- Domain
-  - Entities
-  - Value Objects
-  - Repository Contracts
-- Application
-  - Board
-  - List
-  - Card
-- Infrastructure
-  - Repositories
-- Presentation (Rest API)

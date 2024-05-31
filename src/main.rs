@@ -1,7 +1,7 @@
+mod core;
 mod ctx;
 mod error;
 mod log;
-mod model;
 mod trace;
 mod web;
 
