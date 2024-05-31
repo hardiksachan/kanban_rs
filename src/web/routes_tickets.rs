@@ -1,21 +1,20 @@
-use crate::core;
-use crate::core::ports::TicketStore;
+use crate::core::{self, ports};
 use crate::ctx::Ctx;
 use crate::Result;
 //use axum::extract::Path;
-use axum::routing::post;
+use axum::routing::{get, post};
 use axum::Router;
 use axum::{extract::State, response::IntoResponse, Json};
 use tracing::instrument;
 
-pub fn routes<S>(svc: core::services::Ticket<S>) -> Router
+pub fn routes<S>() -> Router<core::services::Ticket<S>>
 where
-    S: TicketStore + 'static,
+    S: ports::TicketStore,
 {
     Router::new()
-        .route("/tickets", post(create_ticket).get(list_tickets))
-        //.route("/tickets/:id", delete(delete_ticket))
-        .with_state(svc)
+        .route("/tickets", post(create_ticket::<S>))
+        .route("/tickets", get(list_tickets::<S>))
+    //.route("/tickets/:id", delete(delete_ticket))
 }
 
 #[instrument(skip(svc))]
@@ -25,7 +24,7 @@ async fn create_ticket<S>(
     Json(create_ticket_req): Json<core::services::CreateTicketRequest>,
 ) -> impl IntoResponse
 where
-    S: core::ports::TicketStore,
+    S: ports::TicketStore,
 {
     let ticket = svc.create_ticket(ctx, create_ticket_req).await?;
 
@@ -38,7 +37,7 @@ async fn list_tickets<S>(
     ctx: Ctx,
 ) -> impl IntoResponse
 where
-    S: core::ports::TicketStore,
+    S: ports::TicketStore,
 {
     let tickets = svc.list_tickets(ctx).await?;
 

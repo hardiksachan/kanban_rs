@@ -1,4 +1,4 @@
-use super::Result;
+use super::{domain, ports, Result};
 use crate::ctx::Ctx;
 use serde::{Deserialize, Serialize};
 use tracing::{info, instrument};
@@ -20,8 +20,8 @@ pub struct TicketResponse {
     title: String,
 }
 
-impl From<super::domain::Ticket> for TicketResponse {
-    fn from(value: super::domain::Ticket) -> Self {
+impl From<domain::Ticket> for TicketResponse {
+    fn from(value: domain::Ticket) -> Self {
         TicketResponse {
             id: value.ticket_id().get(),
             owner_id: value.owner_id().get(),
@@ -30,25 +30,47 @@ impl From<super::domain::Ticket> for TicketResponse {
     }
 }
 
-impl From<super::domain::Ticket> for CreateTicketResponse {
-    fn from(ticket: super::domain::Ticket) -> Self {
+impl From<domain::Ticket> for CreateTicketResponse {
+    fn from(ticket: domain::Ticket) -> Self {
         Self {
             id: ticket.ticket_id().get(),
         }
     }
 }
 
-#[derive(Clone)]
 pub struct Ticket<S>
 where
-    S: Clone,
+    S: ports::TicketStore,
 {
     store: S,
 }
 
+impl<S> Clone for Ticket<S>
+where
+    S: ports::TicketStore,
+{
+    fn clone(&self) -> Self {
+        Self {
+            store: self.store.clone(),
+        }
+    }
+}
+
 impl<S> Ticket<S>
 where
-    S: super::ports::TicketStore,
+    S: ports::TicketStore,
+{
+    pub fn with_store(store: S) -> Self
+    where
+        S: ports::TicketStore,
+    {
+        Self { store }
+    }
+}
+
+impl<S> Ticket<S>
+where
+    S: ports::TicketStore,
 {
     #[instrument(skip(self))]
     pub async fn create_ticket(
@@ -56,7 +78,7 @@ where
         ctx: Ctx,
         ticket_fc: CreateTicketRequest,
     ) -> Result<CreateTicketResponse> {
-        let ticket = super::domain::Ticket::new(ctx.user_id().into(), ticket_fc.title.into());
+        let ticket = domain::Ticket::new(ctx.user_id().into(), ticket_fc.title.into());
 
         self.store.save_ticket(ctx, ticket.clone()).await?;
         info!(?ticket, "ticket added");

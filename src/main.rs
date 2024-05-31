@@ -20,5 +20,7 @@ async fn main() -> Result<()> {
     //let subscriber = tracing_subscriber::Registry::default().with(telemetry);
     //tracing::subscriber::set_global_default(subscriber).unwrap();
 
-    web::start().await
+    //web::start().await
+
+    Ok(())
 }
