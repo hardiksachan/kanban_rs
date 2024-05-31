@@ -1,3 +1,4 @@
+mod adapters;
 mod core;
 mod ctx;
 mod error;
@@ -5,6 +6,7 @@ mod log;
 mod trace;
 mod web;
 
+use adapters::ticket_store::InMemory;
 pub use error::{Error, Result};
 
 //use opentelemetry::global;
@@ -20,7 +22,7 @@ async fn main() -> Result<()> {
     //let subscriber = tracing_subscriber::Registry::default().with(telemetry);
     //tracing::subscriber::set_global_default(subscriber).unwrap();
 
-    //web::start().await
+    let tickets_store = InMemory::new().await?;
 
-    Ok(())
+    web::start(tickets_store).await
 }

@@ -9,7 +9,7 @@ use tracing::instrument;
 
 pub fn routes<S>() -> Router<core::services::Ticket<S>>
 where
-    S: ports::TicketStore,
+    S: ports::TicketStore + 'static,
 {
     Router::new()
         .route("/tickets", post(create_ticket::<S>))

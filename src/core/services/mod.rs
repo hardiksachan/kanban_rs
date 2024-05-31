@@ -92,6 +92,7 @@ where
             .store
             .list_all_tickets(ctx)
             .await?
+            .into_iter()
             .map(|t| t.into())
             .collect();
 
