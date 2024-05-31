@@ -1,45 +1,46 @@
+use crate::core;
+use crate::core::ports::TicketStore;
 use crate::ctx::Ctx;
 use crate::Result;
-use axum::extract::Path;
-use axum::routing::{delete, post};
+//use axum::extract::Path;
+use axum::routing::post;
 use axum::Router;
 use axum::{extract::State, response::IntoResponse, Json};
 use tracing::instrument;
 
-use crate::model::{ModelController, TicketForCreate};
-
-pub fn routes(mc: ModelController) -> Router {
+pub fn routes<S>(svc: core::services::Ticket<S>) -> Router
+where
+    S: TicketStore + 'static,
+{
     Router::new()
         .route("/tickets", post(create_ticket).get(list_tickets))
-        .route("/tickets/:id", delete(delete_ticket))
-        .with_state(mc)
+        //.route("/tickets/:id", delete(delete_ticket))
+        .with_state(svc)
 }
 
-#[instrument(skip(mc))]
-async fn create_ticket(
-    State(mc): State<ModelController>,
+#[instrument(skip(svc))]
+async fn create_ticket<S>(
+    State(svc): State<core::services::Ticket<S>>,
     ctx: Ctx,
-    Json(ticket_fc): Json<TicketForCreate>,
-) -> impl IntoResponse {
-    let ticket = mc.create_ticket(ctx, ticket_fc).await?;
+    Json(create_ticket_req): Json<core::services::CreateTicketRequest>,
+) -> impl IntoResponse
+where
+    S: core::ports::TicketStore,
+{
+    let ticket = svc.create_ticket(ctx, create_ticket_req).await?;
 
     Result::Ok(Json(ticket))
 }
 
-#[instrument(skip(mc))]
-async fn list_tickets(State(mc): State<ModelController>, ctx: Ctx) -> impl IntoResponse {
-    let tickets = mc.list_tickets(ctx).await?;
+#[instrument(skip(svc))]
+async fn list_tickets<S>(
+    State(svc): State<core::services::Ticket<S>>,
+    ctx: Ctx,
+) -> impl IntoResponse
+where
+    S: core::ports::TicketStore,
+{
+    let tickets = svc.list_tickets(ctx).await?;
 
     Result::Ok(Json(tickets))
-}
-
-#[instrument(skip(mc))]
-async fn delete_ticket(
-    State(mc): State<ModelController>,
-    ctx: Ctx,
-    Path(id): Path<u64>,
-) -> impl IntoResponse {
-    let ticket = mc.delete_ticket(ctx, id).await?;
-
-    Result::Ok(Json(ticket))
 }
