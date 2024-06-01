@@ -1,0 +1,22 @@
+[package]
+name = "rest"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+async-trait = "0.1.80"
+axum = "0.7.5"
+lazy-regex = "3.1.0"
+serde = { version = "1.0.203", features = ["derive"] }
+serde_json = "1.0.117"
+serde_with = "3.8.1"
+ctx = { version = "0.1.0", path = "../shared/ctx" }
+strum_macros = "0.26.2"
+tokio = { version = "1.37.0", features = ["full"] }
+tower-cookies = "0.10.0"
+tracing = "0.1.40"
+uuid = { version = "1.8.0", features = ["v4", "fast-rng", "serde"] }
+tickets = { version = "0.1.0", path = "../tickets" }
+
+[dev-dependencies]
+httpc-test = "0.1.9"

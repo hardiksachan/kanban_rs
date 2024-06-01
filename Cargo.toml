@@ -1,7 +1,8 @@
 [workspace]
 
 members = [
-    "web",
+    "rest",
     "shared/ctx","shared/trace",
+    "tickets",
 ]
 resolver = "2"

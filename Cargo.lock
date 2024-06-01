@@ -1472,6 +1472,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "rest"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "axum 0.7.5",
+ "ctx",
+ "httpc-test",
+ "lazy-regex",
+ "serde",
+ "serde_json",
+ "serde_with",
+ "strum_macros",
+ "tickets",
+ "tokio",
+ "tower-cookies",
+ "tracing",
+ "uuid",
+]
+
+[[package]]
 name = "rustc-demangle"
 version = "0.1.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1789,6 +1809,22 @@ checksum = "8b9ef9bad013ada3808854ceac7b46812a6465ba368859a37e2100283d2d719c"
 dependencies = [
  "cfg-if",
  "once_cell",
+]
+
+[[package]]
+name = "tickets"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "axum 0.7.5",
+ "ctx",
+ "serde",
+ "serde_with",
+ "strum_macros",
+ "tokio",
+ "tower-cookies",
+ "tracing",
+ "uuid",
 ]
 
 [[package]]
@@ -2254,25 +2290,6 @@ name = "wasm-bindgen-shared"
 version = "0.2.92"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "af190c94f2773fdb3729c55b007a722abb5384da03bc0986df4c289bf5567e96"
-
-[[package]]
-name = "web"
-version = "0.1.0"
-dependencies = [
- "async-trait",
- "axum 0.7.5",
- "ctx",
- "httpc-test",
- "lazy-regex",
- "serde",
- "serde_json",
- "serde_with",
- "strum_macros",
- "tokio",
- "tower-cookies",
- "tracing",
- "uuid",
-]
 
 [[package]]
 name = "web-sys"

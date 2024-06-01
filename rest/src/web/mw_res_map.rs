@@ -1,6 +1,6 @@
 use super::extract::Ctx;
-use crate::error::Error;
 use crate::log::log_request;
+use crate::Error;
 use axum::{
     http::{Method, Uri},
     response::{IntoResponse, Response},

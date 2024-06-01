@@ -1,12 +1,11 @@
-use crate::core::services::DeleteTicketRequest;
-use crate::core::{self, ports};
-use crate::Result;
-
 use super::extract::Ctx;
+use crate::Result;
 use axum::extract::Path;
 use axum::routing::{delete, get, post};
 use axum::Router;
 use axum::{extract::State, response::IntoResponse, Json};
+use tickets::core::services::DeleteTicketRequest;
+use tickets::core::{self, ports};
 use tracing::instrument;
 
 pub fn routes<S>() -> Router<core::services::Ticket<S>>

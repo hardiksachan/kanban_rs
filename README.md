@@ -17,7 +17,12 @@ A simple CRUD for exporing rust ecosystem.
   - [x] reorganise and modularize a bit more
 - [x] Setup tracing
 - [x] Refactor to hexagonal architecture
-- [ ] Convert into workspaces
+- [ ] Refactor into workspaces
+  - [x] Extract `ctx` crate
+  - [x] Extract `trace` crate
+  - [x] Extract domain logic into `tickets` crate
+  - [x] Extract `rest_api` crate responsible to configre rest api structure
+  - [ ] Refactor `tickets` crate with hexagonal architecture in mind
 - [ ] Implement real auth
   - [ ] Users
   - [ ] Authentication
