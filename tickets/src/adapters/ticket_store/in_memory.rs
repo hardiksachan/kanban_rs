@@ -1,5 +1,5 @@
-use crate::core::domain;
-use crate::core::ports;
+use crate::domain;
+use crate::ports;
 use crate::{Error, Result};
 use async_trait::async_trait;
 use ctx;

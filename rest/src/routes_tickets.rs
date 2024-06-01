@@ -5,11 +5,10 @@ use axum::extract::Path;
 use axum::routing::{delete, get, post};
 use axum::Router;
 use axum::{extract::State, response::IntoResponse, Json};
-use tickets::core::services::DeleteTicketRequest;
-use tickets::core::{self, ports};
+use tickets::ports;
 use tracing::instrument;
 
-pub fn routes<S>() -> Router<core::services::Ticket<S>>
+pub fn routes<S>() -> Router<tickets::service::Ticket<S>>
 where
     S: ports::TicketStore + 'static,
 {
@@ -21,9 +20,9 @@ where
 
 #[instrument(skip(svc))]
 async fn create_ticket<S>(
-    State(svc): State<core::services::Ticket<S>>,
+    State(svc): State<tickets::service::Ticket<S>>,
     Ctx(ctx): Ctx,
-    Json(req): Json<core::services::CreateTicketRequest>,
+    Json(req): Json<tickets::service::CreateTicketRequest>,
 ) -> impl IntoResponse
 where
     S: ports::TicketStore,
@@ -35,7 +34,7 @@ where
 
 #[instrument(skip(svc))]
 async fn list_tickets<S>(
-    State(svc): State<core::services::Ticket<S>>,
+    State(svc): State<tickets::service::Ticket<S>>,
     Ctx(ctx): Ctx,
 ) -> impl IntoResponse
 where
@@ -48,9 +47,9 @@ where
 
 #[instrument(skip(svc))]
 async fn delete_ticket<S>(
-    State(svc): State<core::services::Ticket<S>>,
+    State(svc): State<tickets::service::Ticket<S>>,
     Ctx(ctx): Ctx,
-    Path(req): Path<DeleteTicketRequest>,
+    Path(req): Path<tickets::service::DeleteTicketRequest>,
 ) -> impl IntoResponse
 where
     S: ports::TicketStore,

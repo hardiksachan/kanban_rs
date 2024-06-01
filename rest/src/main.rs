@@ -8,8 +8,7 @@ mod routes_login;
 mod routes_tickets;
 
 use axum::{middleware, Router};
-use tickets::adapters::ticket_store::InMemory;
-use tickets::core::{self, ports::TicketStore};
+use tickets::{adapters::ticket_store::InMemory, ports::TicketStore};
 use tower_cookies::CookieManagerLayer;
 use tracing::info;
 
@@ -27,7 +26,7 @@ pub const AUTH_TOKEN: &str = "auth-token";
 pub async fn start(ticket_store: impl TicketStore + 'static) -> Result<()> {
     let ticket_routes = routes_tickets::routes()
         .route_layer(middleware::from_fn(mw_auth::mw_require_auth))
-        .with_state(core::services::Ticket::with_store(ticket_store));
+        .with_state(tickets::service::Ticket::with_store(ticket_store));
 
     let routes = Router::new()
         .nest("/api", routes_login::routes())
