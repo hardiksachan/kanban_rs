@@ -1,4 +1,4 @@
-use crate::ctx::Ctx;
+use super::extract::Ctx;
 use crate::error::Error;
 use crate::log::log_request;
 use axum::{
@@ -36,7 +36,15 @@ pub async fn main_response_mapper(
         });
 
     let client_error = client_status_error.unzip().1;
-    let _ = log_request(uuid, req_method, uri, ctx, service_error, client_error).await;
+    let _ = log_request(
+        uuid,
+        req_method,
+        uri,
+        ctx.map(|c| c.into()),
+        service_error,
+        client_error,
+    )
+    .await;
 
     error_response.unwrap_or(res)
 }

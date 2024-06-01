@@ -1,7 +1,8 @@
 use crate::core::services::DeleteTicketRequest;
 use crate::core::{self, ports};
-use crate::ctx::Ctx;
 use crate::Result;
+
+use super::extract::Ctx;
 use axum::extract::Path;
 use axum::routing::{delete, get, post};
 use axum::Router;
@@ -21,7 +22,7 @@ where
 #[instrument(skip(svc))]
 async fn create_ticket<S>(
     State(svc): State<core::services::Ticket<S>>,
-    ctx: Ctx,
+    Ctx(ctx): Ctx,
     Json(req): Json<core::services::CreateTicketRequest>,
 ) -> impl IntoResponse
 where
@@ -35,7 +36,7 @@ where
 #[instrument(skip(svc))]
 async fn list_tickets<S>(
     State(svc): State<core::services::Ticket<S>>,
-    ctx: Ctx,
+    Ctx(ctx): Ctx,
 ) -> impl IntoResponse
 where
     S: ports::TicketStore,
@@ -48,7 +49,7 @@ where
 #[instrument(skip(svc))]
 async fn delete_ticket<S>(
     State(svc): State<core::services::Ticket<S>>,
-    ctx: Ctx,
+    Ctx(ctx): Ctx,
     Path(req): Path<DeleteTicketRequest>,
 ) -> impl IntoResponse
 where

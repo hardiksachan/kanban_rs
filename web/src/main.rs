@@ -1,6 +1,5 @@
 mod adapters;
 mod core;
-mod ctx;
 mod error;
 mod log;
 mod trace;

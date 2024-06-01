@@ -1,7 +1,8 @@
+use crate::core::domain;
 use crate::core::ports;
-use crate::{core::domain, ctx::Ctx};
 use crate::{Error, Result};
 use axum::async_trait;
+use ctx;
 use std::sync::{Arc, Mutex};
 use tracing::{info, instrument};
 
@@ -21,7 +22,7 @@ impl InMemory {
 #[async_trait]
 impl ports::TicketStore for InMemory {
     #[instrument(skip(self))]
-    async fn save_ticket(&self, _ctx: Ctx, ticket: domain::Ticket) -> Result<()> {
+    async fn save_ticket(&self, _ctx: ctx::Ctx, ticket: domain::Ticket) -> Result<()> {
         let mut store = self.tickets_store.lock().unwrap();
 
         store.push(Some(ticket.clone()));
@@ -32,7 +33,7 @@ impl ports::TicketStore for InMemory {
     }
 
     #[instrument(skip(self))]
-    async fn list_all_tickets(&self, _ctx: Ctx) -> Result<Vec<domain::Ticket>> {
+    async fn list_all_tickets(&self, _ctx: ctx::Ctx) -> Result<Vec<domain::Ticket>> {
         let store = self.tickets_store.lock().unwrap();
 
         let tickets = store.iter().filter_map(|t| t.clone()).collect::<Vec<_>>();
@@ -43,7 +44,7 @@ impl ports::TicketStore for InMemory {
     }
 
     #[instrument(skip(self))]
-    async fn delete_ticket(&self, _ctx: Ctx, id: domain::TicketId) -> Result<domain::Ticket> {
+    async fn delete_ticket(&self, _ctx: ctx::Ctx, id: domain::TicketId) -> Result<domain::Ticket> {
         let mut store = self.tickets_store.lock().unwrap();
 
         let ticket = store

@@ -2,7 +2,7 @@ use axum::async_trait;
 
 use super::Result;
 use crate::core::domain;
-use crate::ctx;
+use ctx;
 
 #[async_trait]
 pub trait TicketStore: Clone + Send + Sync {

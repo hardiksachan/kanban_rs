@@ -1,3 +1,4 @@
+mod extract;
 mod mw_auth;
 mod mw_res_map;
 mod routes_health;

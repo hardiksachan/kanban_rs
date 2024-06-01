@@ -13,6 +13,7 @@ opentelemetry-semantic-conventions = { version="0.11.0" }
 serde = { version = "1.0.203", features = ["derive"] }
 serde_json = "1.0.117"
 serde_with = "3.8.1"
+ctx = { version = "0.1.0", path = "../shared/ctx" }
 strum_macros = "0.26.2"
 tokio = { version = "1.37.0", features = ["full"] }
 tower-cookies = "0.10.0"

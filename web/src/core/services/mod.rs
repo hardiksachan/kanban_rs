@@ -1,5 +1,5 @@
 use super::{domain, ports, Result};
-use crate::ctx::Ctx;
+use ctx;
 use serde::{Deserialize, Serialize};
 use tracing::{info, instrument};
 use uuid::Uuid;
@@ -81,7 +81,7 @@ where
     #[instrument(skip(self))]
     pub async fn create_ticket(
         &self,
-        ctx: Ctx,
+        ctx: ctx::Ctx,
         req: CreateTicketRequest,
     ) -> Result<CreateTicketResponse> {
         let ticket = domain::Ticket::new(ctx.user_id().into(), req.title.into());
@@ -93,7 +93,7 @@ where
     }
 
     #[instrument(skip(self))]
-    pub async fn list_tickets(&self, ctx: Ctx) -> Result<Vec<TicketResponse>> {
+    pub async fn list_tickets(&self, ctx: ctx::Ctx) -> Result<Vec<TicketResponse>> {
         let tickets: Vec<TicketResponse> = self
             .store
             .list_all_tickets(ctx)
@@ -110,7 +110,7 @@ where
     #[instrument(skip(self))]
     pub async fn delete_ticket(
         &self,
-        ctx: Ctx,
+        ctx: ctx::Ctx,
         req: DeleteTicketRequest,
     ) -> Result<TicketResponse> {
         let ticket = self

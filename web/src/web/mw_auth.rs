@@ -1,14 +1,13 @@
-use axum::async_trait;
+use super::extract::Ctx;
 use axum::body::Body;
-use axum::extract::{FromRequestParts, Request};
-use axum::http::request::Parts;
+use axum::extract::Request;
 use axum::middleware::Next;
 use axum::response::Response;
+use ctx;
 use lazy_regex::regex_captures;
 use tower_cookies::{Cookie, Cookies};
 use tracing::instrument;
 
-use crate::ctx::Ctx;
 use crate::web::AUTH_TOKEN;
 use crate::{Error, Result};
 
@@ -30,7 +29,7 @@ pub async fn mw_ctx_resolver(
         .ok_or(Error::AuthFailNoAuthTokenCookie)
         .and_then(parse_token)
     {
-        Ok((user_id, _exp, _sign)) => Ok(Ctx::new(user_id)),
+        Ok((user_id, _exp, _sign)) => Ok(ctx::Ctx::new(user_id)),
         Err(e) => Err(e),
     };
 
@@ -41,22 +40,6 @@ pub async fn mw_ctx_resolver(
     req.extensions_mut().insert(result_ctx);
 
     Ok(next.run(req).await)
-}
-
-#[async_trait]
-impl<S> FromRequestParts<S> for Ctx
-where
-    S: Send + Sync,
-{
-    type Rejection = Error;
-
-    async fn from_request_parts(parts: &mut Parts, _state: &S) -> Result<Self> {
-        parts
-            .extensions
-            .get::<Result<Ctx>>()
-            .ok_or(Error::AuthFailedCtxNotInRequestExt)?
-            .clone()
-    }
 }
 
 /// Parse a token of format `user-[user-id].[expiration].[signature].

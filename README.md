@@ -16,7 +16,8 @@ A simple CRUD for exporing rust ecosystem.
   - [x] setup logging
   - [x] reorganise and modularize a bit more
 - [x] Setup tracing
-- [ ] Refactor to hexagonal architecture
+- [x] Refactor to hexagonal architecture
+- [ ] Convert into workspaces
 - [ ] Implement real auth
   - [ ] Users
   - [ ] Authentication
@@ -47,4 +48,3 @@ A simple CRUD for exporing rust ecosystem.
 - sqlx
 - cornocupia (maybe!)
 - tracing
-
