@@ -3,15 +3,9 @@ use uuid::Uuid;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
-#[derive(Debug, Clone, Serialize, strum_macros::AsRefStr)]
-#[serde(tag = "type", content = "data")]
+#[derive(Debug, Clone, Serialize)]
 pub enum Error {
-    // Model errors
     TicketDeleteFailIdNotFound { id: Uuid },
-    //// Auth errors
-    //AuthFailNoAuthTokenCookie,
-    //AuthFailTokenWrongFormat,
-    //AuthFailedCtxNotInRequestExt,
 }
 
 impl std::fmt::Display for Error {
