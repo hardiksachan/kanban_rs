@@ -1,7 +1,6 @@
-use axum::async_trait;
-
 use super::Result;
 use crate::core::domain;
+use async_trait::async_trait;
 use ctx;
 
 #[async_trait]

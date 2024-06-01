@@ -1837,13 +1837,8 @@ name = "tickets"
 version = "0.1.0"
 dependencies = [
  "async-trait",
- "axum 0.7.5",
  "ctx",
  "serde",
- "serde_with",
- "strum_macros",
- "tokio",
- "tower-cookies",
  "tracing",
  "uuid",
 ]

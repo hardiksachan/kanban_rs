@@ -1,7 +1,7 @@
 use crate::core::domain;
 use crate::core::ports;
 use crate::{Error, Result};
-use axum::async_trait;
+use async_trait::async_trait;
 use ctx;
 use std::sync::{Arc, Mutex};
 use tracing::{info, instrument};
