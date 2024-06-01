@@ -17,6 +17,7 @@ tower-cookies = "0.10.0"
 tracing = "0.1.40"
 uuid = { version = "1.8.0", features = ["v4", "fast-rng", "serde"] }
 tickets = { version = "0.1.0", path = "../tickets" }
+derive_more = { version = "1.0.0-beta.6", features = ["from"] }
 
 [dev-dependencies]
 httpc-test = "0.1.9"

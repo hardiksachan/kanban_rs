@@ -1,3 +1,4 @@
+mod error;
 mod extract;
 mod log;
 mod mw_auth;
@@ -12,7 +13,7 @@ use tickets::core::{self, ports::TicketStore};
 use tower_cookies::CookieManagerLayer;
 use tracing::info;
 
-pub use tickets::error::{Error, Result};
+pub use error::{Error, Result};
 
 #[tokio::main]
 async fn main() -> Result<()> {
