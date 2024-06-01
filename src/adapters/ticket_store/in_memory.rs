@@ -1,6 +1,6 @@
 use crate::core::ports;
-use crate::Result;
 use crate::{core::domain, ctx::Ctx};
+use crate::{Error, Result};
 use axum::async_trait;
 use std::sync::{Arc, Mutex};
 use tracing::{info, instrument};
@@ -42,14 +42,20 @@ impl ports::TicketStore for InMemory {
         Ok(tickets)
     }
 
-    //#[instrument(skip(self))]
-    //pub async fn delete_ticket(&self, _ctx: Ctx, id: u64) -> Result<Ticket> {
-    //    let mut store = self.tickets_store.lock().unwrap();
-    //
-    //    let ticket = store.get_mut(id as usize).and_then(|t| t.take());
-    //
-    //    info!(?ticket, "ticket deleted");
-    //
-    //    ticket.ok_or(Error::TicketDeleteFailIdNotFound { id })
-    //}
+    #[instrument(skip(self))]
+    async fn delete_ticket(&self, _ctx: Ctx, id: domain::TicketId) -> Result<domain::Ticket> {
+        let mut store = self.tickets_store.lock().unwrap();
+
+        let ticket = store
+            .iter_mut()
+            .find(|t| match t {
+                None => false,
+                Some(ref ticket) => ticket.ticket_id().clone() == id,
+            })
+            .and_then(|t| t.take());
+
+        info!(?ticket, "ticket deleted");
+
+        ticket.ok_or(Error::TicketDeleteFailIdNotFound { id: id.get() })
+    }
 }

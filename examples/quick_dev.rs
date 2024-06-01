@@ -28,7 +28,10 @@ async fn main() -> Result<()> {
     );
     req_create_ticket.await?.print().await?;
 
-    //hc.do_delete("/api/tickets/1").await?.print().await?;
+    hc.do_delete("/api/tickets/3c7b9268-06cd-447f-a6ae-151447ecf9ee")
+        .await?
+        .print()
+        .await?;
     hc.do_get("/api/tickets").await?.print().await?;
 
     Ok(())

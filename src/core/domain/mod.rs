@@ -4,11 +4,25 @@
 // These domain objects may later enfoce some invariants
 // hence, we don't have primitive types by default
 
-#[derive(Clone, Debug)]
-pub struct TicketId(u64);
+use uuid::Uuid;
+
+#[derive(Clone, Debug, PartialEq, Copy)]
+pub struct TicketId(Uuid);
 
 impl TicketId {
-    pub fn get(&self) -> u64 {
+    fn new() -> Self {
+        Self(Uuid::new_v4())
+    }
+}
+
+impl From<Uuid> for TicketId {
+    fn from(value: Uuid) -> Self {
+        Self(value)
+    }
+}
+
+impl TicketId {
+    pub fn get(&self) -> Uuid {
         self.0
     }
 }
@@ -54,7 +68,7 @@ pub struct Ticket {
 impl Ticket {
     pub fn new(owner_id: OwnerId, title: Title) -> Ticket {
         Ticket {
-            ticket_id: TicketId(5),
+            ticket_id: TicketId::new(),
             owner_id,
             title,
         }

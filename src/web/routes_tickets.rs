@@ -1,8 +1,9 @@
+use crate::core::services::DeleteTicketRequest;
 use crate::core::{self, ports};
 use crate::ctx::Ctx;
 use crate::Result;
-//use axum::extract::Path;
-use axum::routing::{get, post};
+use axum::extract::Path;
+use axum::routing::{delete, get, post};
 use axum::Router;
 use axum::{extract::State, response::IntoResponse, Json};
 use tracing::instrument;
@@ -14,19 +15,19 @@ where
     Router::new()
         .route("/tickets", post(create_ticket::<S>))
         .route("/tickets", get(list_tickets::<S>))
-    //.route("/tickets/:id", delete(delete_ticket))
+        .route("/tickets/:ticket_id", delete(delete_ticket::<S>))
 }
 
 #[instrument(skip(svc))]
 async fn create_ticket<S>(
     State(svc): State<core::services::Ticket<S>>,
     ctx: Ctx,
-    Json(create_ticket_req): Json<core::services::CreateTicketRequest>,
+    Json(req): Json<core::services::CreateTicketRequest>,
 ) -> impl IntoResponse
 where
     S: ports::TicketStore,
 {
-    let ticket = svc.create_ticket(ctx, create_ticket_req).await?;
+    let ticket = svc.create_ticket(ctx, req).await?;
 
     Result::Ok(Json(ticket))
 }
@@ -42,4 +43,18 @@ where
     let tickets = svc.list_tickets(ctx).await?;
 
     Result::Ok(Json(tickets))
+}
+
+#[instrument(skip(svc))]
+async fn delete_ticket<S>(
+    State(svc): State<core::services::Ticket<S>>,
+    ctx: Ctx,
+    Path(req): Path<DeleteTicketRequest>,
+) -> impl IntoResponse
+where
+    S: ports::TicketStore,
+{
+    let ticket = svc.delete_ticket(ctx, req).await?;
+
+    Result::Ok(Json(ticket))
 }

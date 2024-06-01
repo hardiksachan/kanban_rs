@@ -1,6 +1,7 @@
 use axum::{http::StatusCode, response::IntoResponse};
 use serde::Serialize;
 use tracing::instrument;
+use uuid::Uuid;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -10,7 +11,7 @@ pub enum Error {
     LoginFail,
 
     // Model errors
-    TicketDeleteFailIdNotFound { id: u64 },
+    TicketDeleteFailIdNotFound { id: Uuid },
 
     // Auth errors
     AuthFailNoAuthTokenCookie,

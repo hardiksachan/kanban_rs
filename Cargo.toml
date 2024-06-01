@@ -19,7 +19,7 @@ tower-cookies = "0.10.0"
 tracing = "0.1.40"
 tracing-opentelemetry = "0.19.0"
 tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
-uuid = { version = "1.8.0", features = ["v4", "fast-rng"] }
+uuid = { version = "1.8.0", features = ["v4", "fast-rng", "serde"] }
 
 [dev-dependencies]
 httpc-test = "0.1.9"
