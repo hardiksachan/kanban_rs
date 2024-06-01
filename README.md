@@ -1,6 +1,6 @@
 # Kanban Board
 
-A simple CRUD for exporing rust ecosystem.
+A simple CRUD for exploring rust ecosystem.
 
 ---
 
