@@ -2,6 +2,6 @@
 
 members = [
     "web",
-    "shared/ctx",
+    "shared/ctx","shared/trace",
 ]
 resolver = "2"

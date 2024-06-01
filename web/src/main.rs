@@ -2,7 +2,6 @@ mod adapters;
 mod core;
 mod error;
 mod log;
-mod trace;
 mod web;
 
 use adapters::ticket_store::InMemory;
