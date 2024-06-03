@@ -49,9 +49,11 @@ impl ports::TicketStore for InMemory {
 
         let ticket = store
             .iter_mut()
-            .find(|t| match t {
-                None => false,
-                Some(ref ticket) => ticket.ticket_id().clone() == id,
+            .find(|t| {
+                let Some(ref ticket) = t else {
+                    return false;
+                };
+                ticket.ticket_id().clone() == id
             })
             .and_then(|t| t.take());
 
