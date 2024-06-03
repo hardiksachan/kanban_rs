@@ -1,8 +1,14 @@
 [workspace]
 
 members = [
-    "rest",
-    "shared/ctx","shared/trace",
-    "tickets",
+    # Executables
+    "crates/cmd/rest",
+
+    # Domains
+    "crates/tickets",
+
+    # Utils
+    "crates/shared/ctx",
+    "crates/shared/trace",
 ]
 resolver = "2"
