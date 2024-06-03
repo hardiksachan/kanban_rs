@@ -17,9 +17,14 @@ pub struct CreateTicketResponse {
 
 #[derive(Serialize)]
 pub struct TicketResponse {
-    id: Uuid,
-    owner_id: u64,
-    title: String,
+    pub id: Uuid,
+    pub owner_id: u64,
+    pub title: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct DeleteTicketRequest {
+    pub ticket_id: Uuid,
 }
 
 impl From<domain::Ticket> for TicketResponse {
@@ -38,11 +43,6 @@ impl From<domain::Ticket> for CreateTicketResponse {
             id: ticket.ticket_id().get(),
         }
     }
-}
-
-#[derive(Debug, Deserialize)]
-pub struct DeleteTicketRequest {
-    ticket_id: Uuid,
 }
 
 pub struct Ticket<S>

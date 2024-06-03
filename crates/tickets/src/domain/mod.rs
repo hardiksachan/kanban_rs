@@ -1,9 +1,3 @@
-// Question: How do I force immutability for ticket
-// Do I really need it or just need some backing fields?
-
-// These domain objects may later enfoce some invariants
-// hence, we don't have primitive types by default
-
 use derive_more::From;
 use uuid::Uuid;
 
@@ -47,7 +41,6 @@ pub struct Ticket {
     title: Title,
 }
 
-// Constructors
 impl Ticket {
     pub fn new(owner_id: OwnerId, title: Title) -> Ticket {
         Ticket {
@@ -58,7 +51,6 @@ impl Ticket {
     }
 }
 
-// Getters
 impl Ticket {
     pub fn ticket_id(&self) -> &TicketId {
         &self.ticket_id
