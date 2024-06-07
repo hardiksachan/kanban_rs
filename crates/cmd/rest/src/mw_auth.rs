@@ -45,11 +45,11 @@ pub async fn mw_ctx_resolver(
 /// Parse a token of format `user-[user-id].[expiration].[signature].
 /// Returns (user_id, expiration, signature)
 #[instrument]
-fn parse_token(token: String) -> Result<(u64, String, String)> {
+fn parse_token(token: String) -> Result<(String, String, String)> {
     let (_whole, user_id, exp, sign) = regex_captures!(r#"^user-(\d+)\.(.+)\.(.+)"#, &token)
         .ok_or(Error::AuthFailTokenWrongFormat)?;
 
-    let user_id: u64 = user_id
+    let user_id: String = user_id
         .parse()
         .map_err(|_| Error::AuthFailTokenWrongFormat)?;
 

@@ -53,7 +53,7 @@ struct RequestLogLine {
     timestamp: String,
 
     // User and context attributes
-    user_id: Option<u64>,
+    user_id: Option<String>,
 
     // http request attributes
     req_path: String,

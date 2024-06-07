@@ -9,4 +9,5 @@ serde = { version = "1.0.203", features = ["derive"] }
 ctx = { version = "0.1.0", path = "../shared/ctx" }
 tracing = "0.1.40"
 uuid = { version = "1.8.0", features = ["v4", "fast-rng", "serde"] }
-derive_more = { version = "0.99.17", features = ["from"] }
+derive_more = { version = "1.0.0-beta.6", features = ["from"] }
+bs58 = "0.5.1"

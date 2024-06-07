@@ -3,7 +3,6 @@ use crate::{ports, Result};
 use ctx;
 use serde::{Deserialize, Serialize};
 use tracing::{info, instrument};
-use uuid::Uuid;
 
 #[derive(Debug, Deserialize)]
 pub struct CreateTicketRequest {
@@ -12,26 +11,26 @@ pub struct CreateTicketRequest {
 
 #[derive(Debug, Serialize)]
 pub struct CreateTicketResponse {
-    pub id: Uuid,
+    pub id: String,
 }
 
 #[derive(Serialize)]
 pub struct TicketResponse {
-    pub id: Uuid,
-    pub owner_id: u64,
+    pub id: String,
+    pub owner_id: String,
     pub title: String,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct DeleteTicketRequest {
-    pub ticket_id: Uuid,
+    pub ticket_id: String,
 }
 
 impl From<domain::Ticket> for TicketResponse {
     fn from(value: domain::Ticket) -> Self {
         TicketResponse {
-            id: value.ticket_id().get(),
-            owner_id: value.owner_id().get(),
+            id: value.ticket_id().to_string(),
+            owner_id: value.owner_id().to_string(),
             title: value.title().get(),
         }
     }
@@ -40,7 +39,7 @@ impl From<domain::Ticket> for TicketResponse {
 impl From<domain::Ticket> for CreateTicketResponse {
     fn from(ticket: domain::Ticket) -> Self {
         Self {
-            id: ticket.ticket_id().get(),
+            id: ticket.ticket_id().to_string(),
         }
     }
 }
@@ -116,7 +115,7 @@ where
     ) -> Result<TicketResponse> {
         let ticket = self
             .store
-            .delete_ticket(ctx, domain::TicketId::from(req.ticket_id))
+            .delete_ticket(ctx, domain::TicketId::try_from(req.ticket_id).unwrap())
             .await?;
 
         info!(?ticket, "ticket deleted");

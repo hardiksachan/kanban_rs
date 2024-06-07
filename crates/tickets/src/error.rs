@@ -1,11 +1,13 @@
 use serde::Serialize;
-use uuid::Uuid;
+
+use super::TicketId;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
 #[derive(Debug, Clone, Serialize)]
 pub enum Error {
-    TicketDeleteFailIdNotFound { id: Uuid },
+    TicketDeleteFailIdNotFound { id: TicketId },
+    InvalidTicketId { id: String },
 }
 
 impl std::fmt::Display for Error {

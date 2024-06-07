@@ -30,7 +30,8 @@ impl Error {
             | Self::AuthFailedCtxNotInRequestExt => (StatusCode::FORBIDDEN, ClientError::NO_AUTH),
 
             Self::Ticket(ref ticket_error) => match ticket_error {
-                tickets::Error::TicketDeleteFailIdNotFound { .. } => {
+                tickets::Error::TicketDeleteFailIdNotFound { .. }
+                | tickets::Error::InvalidTicketId { .. } => {
                     (StatusCode::BAD_REQUEST, ClientError::INVALID_PARAMS)
                 }
             },

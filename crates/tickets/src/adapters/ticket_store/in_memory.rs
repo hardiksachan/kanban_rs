@@ -59,6 +59,6 @@ impl ports::TicketStore for InMemory {
 
         info!(?ticket, "ticket deleted");
 
-        ticket.ok_or(Error::TicketDeleteFailIdNotFound { id: id.get() })
+        ticket.ok_or(Error::TicketDeleteFailIdNotFound { id })
     }
 }
