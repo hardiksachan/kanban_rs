@@ -2,7 +2,7 @@ use axum::{response::IntoResponse, routing::get, Router};
 use tracing::{info, instrument};
 
 pub fn routes() -> Router {
-    Router::new().route("/healtz", get(healthz_handler))
+    Router::new().route("/healthz", get(healthz_handler))
 }
 
 #[instrument]

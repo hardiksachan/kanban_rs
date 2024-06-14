@@ -23,10 +23,13 @@ A simple CRUD for exploring rust ecosystem.
   - [x] Extract domain logic into `tickets` crate
   - [x] Extract `rest_api` crate responsible to configre rest api structure
   - [x] Refactor `tickets` crate with hexagonal architecture in mind
+- [ ] CI/CD
+  - [ ] Dockerize the application
+  - [ ] Create a build pipeline that build and pushes an image to a registry
+  - [ ] Setup deployment repository for GitOps
 - [ ] Implement real auth
   - [ ] Users
   - [ ] Authentication
-- [ ] Host the app on render.com
 - [ ] Model Domain
   - [ ] Board
   - [ ] List
